@@ -1,0 +1,130 @@
+﻿@helper GetAddEntryButtonVisibility()
+{
+    if ((string)ViewContext.RouteData.Values["controller"] == "Pagination" && (string)ViewContext.RouteData.Values["action"] == "Tmp")
+    {
+            <text>visible</text>
+    }
+    else
+    {
+            <text>hidden</text>
+    }
+}
+
+@helper Login()
+{
+    if ((string)ViewContext.RouteData.Values["controller"] == "Pagination" && (string)ViewContext.RouteData.Values["action"] == "Index")
+    {
+            <text>visible</text>
+    }
+    else
+    {
+            <text>hidden</text>
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Comic Book Gallery</title>
+    <link href="~/Content/site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Exam", "Index", "Pagination", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav"></ul>
+                <button class="btn btn-danger navbar-btn navbar-right" data-toggle="modal" data-target="#myModal" style="visibility: @Login()">Login</button>
+                <a href="@Url.Action("Add1", "Pagination")" style="visibility: @GetAddEntryButtonVisibility()"
+                   class="btn btn-primary navbar-btn navbar-right">
+                    <span class="glyphicon glyphicon-plus"></span> Add Entry
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Exam</p>
+        </footer>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email address:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password:</label>
+                            <input type="password" class="form-control" id="pwd">
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox"> Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="Password()">Submit</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function Password() {
+
+            var alphabet = 'abcdefghijkalmnopqrstupwxyz';
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("pwd").value;
+            var resultString = '';
+            var setEmail = "firdaus@gmail.com"
+            var setPass = "ebpt";
+
+            for (var i = 0; i < password.length; i++) {
+                var char = password.substring(i, i + 1);
+                var index = alphabet.indexOf(char);
+                resultString += alphabet.substring(index + 1, index + 2);
+            }
+
+            if (setEmail == email && setPass == resultString) {
+                window.open("Pagination/Tmp");
+            }
+            else {
+                if (setEmail != email) {
+                    alert("Alamat Email Tidak Terdaftar")
+                }
+
+                if (setPass != resultString) {
+                    alert("password yg Anda Masukkan Salah")
+                }
+            }
+        }
+    </script>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/login.js"></script>
+</body>
+</html>
